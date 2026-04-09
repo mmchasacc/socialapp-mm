@@ -1,6 +1,8 @@
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import * as userControllers from "../controllers/userControllers";
 import { registerSchema } from "../schemas/registerUser";
+import { loginSchema } from "../schemas/loginUser";
+import authenticate from "../auth";
 
 /*
 
@@ -27,6 +29,14 @@ export async function userRoutes(
     method: "POST",
     url: "/login",
     handler: userControllers.login,
+    schema: loginSchema,
+  });
+
+  httpServer.route({
+    method: "GET",
+    url: "/test",
+    handler: (req, rep) => rep.status(200).send("Hello there!"),
+    preHandler: [authenticate],
   });
 }
 

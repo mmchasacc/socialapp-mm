@@ -10,6 +10,12 @@ export type RegisterRequest = {
   password: string;
 };
 
+// DatabaseUser, som är den kompletta användaren som bara finns i databasen eller som admins kan se.
+
+// AuthenticatedUser så som användaren själv ska få när den är inloggad
+
+// PublicUser, vad andra användare kan se om användaren
+
 export type LoginRequest = {
   username: string;
   password: string;
