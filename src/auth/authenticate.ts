@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
+import type { TokenPayload } from "../types/auth";
 
 // Middleware for Admins
 async function authenticate(request: FastifyRequest, reply: FastifyReply) {
