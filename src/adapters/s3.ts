@@ -19,6 +19,27 @@ const s3Client = new S3Client({
   },
 });
 
+/*
+
+fullImage
+thumbnail
+compressed
+
+*/
+
+// type ProfileCard = {
+//   id: string;
+//   display_name: string;
+//   username: string;
+//   images: {
+//     thumbnail: string;
+//     fullImage: string;
+//     compressed: string;
+//   };
+// };
+
+// <img src={profile.images.compressed}>
+
 async function uploadImageToS3(
   imageBuffer: Buffer,
   fullFileName: string, // minbild.jpg
@@ -33,6 +54,12 @@ async function uploadImageToS3(
   const fileExtension = partitionedFileName.pop();
 
   const finalFileName = `${timestamp}-${fileName}`;
+
+  // Med hjälp av bibliotek kan vi komprimera bilden och skapa en ny kopia av den som är komprimerad
+
+  // const compressedImage = await compressImage(imageBuffer)
+
+  // const thumbnail = await getThumbnail(imageBuffer)
 
   // Konfigurerar uppladdning
   const upload = new Upload({

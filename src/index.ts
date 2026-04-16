@@ -2,6 +2,7 @@ import fastify from "fastify";
 import banner from "./banner";
 import userRoutes from "./routes/userRoutes";
 import auth from "./auth";
+import fastifyMultipart from "@fastify/multipart";
 
 const httpServer = fastify({});
 
@@ -24,6 +25,13 @@ async function start() {
   await httpServer.register(userRoutes);
 
   await httpServer.register(auth);
+
+  await httpServer.register(fastifyMultipart, {
+    limits: {
+      fileSize: 15_000_000,
+      files: 1,
+    },
+  });
 
   await httpServer.listen({ host, port });
 

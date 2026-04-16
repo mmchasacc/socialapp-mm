@@ -11,7 +11,6 @@ export type RegisterRequest = {
 };
 
 export type CreatePostRequest = {
-  image: string;
   caption?: string;
 };
 

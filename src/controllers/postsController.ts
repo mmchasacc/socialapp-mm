@@ -9,6 +9,8 @@ export async function createPost(
 ) {
   const tokenPayload = request.user as TokenPayload;
 
+  const file = await request.file();
+
   const createdPost = await repository.posts.insertOne(
     request.body,
     tokenPayload.username,
