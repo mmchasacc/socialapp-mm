@@ -11,7 +11,7 @@ export async function insertOne(
 
   const [created] = await db<
     PostRow[]
-  >`INSERT INTO posts (status, user_id, image, caption, created_at) VALUES (${status}, (SELECT id FROM users WHERE username = ${username}), ${input.image}, ${input.caption}, ${createdAt}) RETURNING *`;
+  >`INSERT INTO posts (status, user_id, image, caption, created_at) VALUES (${status}, (SELECT id FROM users WHERE username = ${username} LIMIT 1), ${input.image}, ${input.caption}, ${createdAt}) RETURNING *`;
 
   if (!created) throw new Error("Failed to create user!");
 

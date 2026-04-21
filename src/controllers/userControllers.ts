@@ -27,6 +27,7 @@ async function generateAuthResponse(
     role: USER_ROLE,
   };
 
+
   const token = await reply.jwtSign(tokenPayload, {
     expiresIn: "100y",
   });
@@ -41,6 +42,13 @@ export async function register(
   request: FastifyRequest<{ Body: RegisterRequest }>,
   reply: FastifyReply,
 ) {
+
+  const existingUser = await repository.users.getByUsername(request.body.username)
+
+  if (existingUser) {
+    return reply.status(409).send({ message: "Username already taken" })
+  }
+
   const user = await repository.users.insertOne(request.body);
 
   const response = await generateAuthResponse(user, reply);

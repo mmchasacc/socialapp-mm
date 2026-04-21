@@ -12,6 +12,7 @@ export type RegisterRequest = {
 
 export type CreatePostRequest = {
   caption?: string;
+  image: string;
 };
 
 // Vad en inloggad användare får ha tillgång till

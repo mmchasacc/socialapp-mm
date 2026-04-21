@@ -1,4 +1,5 @@
 import fastifyJwt from "@fastify/jwt";
+import fp from "fastify-plugin"
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 const secretKey = process.env.JWT_SECRET_KEY;
@@ -14,4 +15,4 @@ async function auth(
   });
 }
 
-export default auth;
+export default fp(auth);

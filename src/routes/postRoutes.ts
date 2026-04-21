@@ -31,3 +31,5 @@ i vår server.
 5. controller/handler
 
 */
+
+export default postRoutes
