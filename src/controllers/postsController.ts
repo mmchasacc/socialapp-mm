@@ -20,6 +20,12 @@ export async function createPost(
 
   const imageUrl = await uploadImageToS3(buffer, file.filename, file.mimetype)
 
+  if (!imageUrl) {
+    return reply.status(500).send({
+      message: "Failed to upload image to S3"
+    })
+  }
+
   const captionField = file.fields.caption as any
 
   const requestBody: CreatePostRequest = {
@@ -33,6 +39,14 @@ export async function createPost(
   );
 
   return reply.status(201).send(createdPost);
+}
+
+export async function getFeed(request: FastifyRequest, reply: FastifyReply) {
+  const username = request.user.username
+
+  const feed = await repository.posts.getUserFeed(username)
+
+    return reply.status(200).send(feed)
 }
 
 /*

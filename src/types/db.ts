@@ -21,3 +21,14 @@ export type PostRow = {
   caption: string | null;
   created_at: Date; // sätter vi i koden (new Date().toISOString())
 };
+
+
+export type FeedRow = {
+  id: number
+  image: string
+  caption: string | null
+  created_at: string
+  username: string
+  profile_image: string | null
+  user_display_name: string
+}

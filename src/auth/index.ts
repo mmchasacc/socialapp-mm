@@ -1,6 +1,14 @@
 import fastifyJwt from "@fastify/jwt";
 import fp from "fastify-plugin"
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
+import type { TokenPayload } from "../types/auth";
+
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    user: TokenPayload
+
+  }
+}
 
 const secretKey = process.env.JWT_SECRET_KEY;
 

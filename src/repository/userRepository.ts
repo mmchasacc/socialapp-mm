@@ -22,3 +22,51 @@ export async function getByUsername(username: string) {
 
   return user || null;
 }
+
+
+export async function isFollowing(
+  followingUsername: string,
+  followedUsername: string,
+): Promise<boolean> {
+  const [relation] = await db`
+  SELECT * FROM follower_relationships 
+  WHERE following_user_id = (SELECT id from users WHERE username = ${followingUsername}) AND followed_user_id = (SELECT id from users WHERE username = ${followedUsername})
+  `
+
+  return !!relation
+}
+
+
+export async function addFollower(
+  followingUsername: string,
+  followedUsername: string,
+) {
+  const createdAt = new Date().toISOString()
+
+  await db`
+  INSERT INTO follower_relationships (following_user_id, followed_user_id, created_at) VALUES ((SELECT id from users WHERE username = ${followingUsername}), (SELECT id from users WHERE username = ${followedUsername}), ${createdAt})
+  `
+}
+
+export async function removeFollower(
+  followingUsername: string,
+  followedUsername: string,
+) {
+  await db`
+  DELETE FROM follower_relationships WHERE following_user_id = (SELECT id from users WHERE username = ${followingUsername}) AND followed_user_id = (SELECT id from users WHERE username = ${followedUsername})
+  `
+}
+
+
+/* 
+export async function follow(followerId: number, followedid: number) {
+
+  const createdAt = new Date().toISOString()
+
+  await db`INSERT INTO follower_relationships (following_user_id, followed_user_id, created_at) VALUES (${followerId}, ${followedid}, ${createdAt} ON CONFLICT DO NOTHING)`
+}
+
+export async function unfollow(followerId: number, followedId: number) {
+  await db`
+  DELETE FROM follower_relationships WHERE following_user_id = ${followerId} AND followed_user_id = ${followedId}`
+} */

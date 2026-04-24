@@ -56,6 +56,34 @@ export async function register(
   return reply.status(201).send(response);
 }
 
+export async function toggleFollow(
+  request: FastifyRequest<{Params: { username: string }}>,
+  reply: FastifyReply,
+) {
+
+  const usernameLoggedIn = request.user.username
+
+  const usernameToFollow = request.params.username
+
+  const alreadyFollowing = await repository.users.isFollowing(
+    usernameLoggedIn,
+    usernameToFollow,
+  )
+
+  if (alreadyFollowing) {
+    await repository.users.removeFollower(usernameLoggedIn, usernameToFollow)
+
+    return reply.status(200).send({ message: `You have unfollowed ${usernameToFollow}` })
+  } else {
+    await repository.users.addFollower(usernameLoggedIn, usernameToFollow)
+
+    return reply.status(200).send({ message: `You are now following ${usernameToFollow}` })
+  }
+
+}
+
+
+
 export async function login(
   request: FastifyRequest<{ Body: LoginRequest }>,
   reply: FastifyReply,
